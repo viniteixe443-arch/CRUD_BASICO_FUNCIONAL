@@ -2,6 +2,8 @@ package br.com.senai.teste.controller;
 
 import br.com.senai.teste.model.Aluno;
 import br.com.senai.teste.sevice.AlunoService;
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Aluno> cadastrar(@RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> cadastrar(@Valid @RequestBody Aluno aluno) {
 
         Aluno alunoCadastrado = alunoService.cadastrar(aluno);
 
@@ -44,7 +46,7 @@ public class AlunoController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}") // Aproveite para corrigir o mapeamento do ID aqui também!
+    @PutMapping("/{id}") 
     public ResponseEntity<Aluno> atualizar(
             @PathVariable Integer id,
             @RequestBody Aluno novosDados) {
@@ -52,7 +54,7 @@ public class AlunoController {
 
         if (alunoAtualizado.isPresent()) {
             return ResponseEntity.ok(alunoAtualizado.get());
-        } // <- Esta chave fecha apenas o bloco do "if"
+        }
 
         return ResponseEntity.notFound().build();
     }
