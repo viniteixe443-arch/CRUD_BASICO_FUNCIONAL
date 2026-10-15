@@ -9,18 +9,18 @@ public class EmprestimoRequest {
     public EmprestimoRequest(){
 
     }
-    public Integer getAluno(){
+    public Integer getAlunoId(){
         return alunoId;
     }
     
-    public void setAluno(Integer alunoId){
+    public void setAlunoId(Integer alunoId){
         this.alunoId = alunoId;
     }
-    public Integer getLivro(){
+    public Integer getLivroId(){
         return livroId;
     }
 
-    public void setLivro(Integer livroId){
+    public void setLivroId(Integer livroId){
         this.livroId = livroId;
     }
 }

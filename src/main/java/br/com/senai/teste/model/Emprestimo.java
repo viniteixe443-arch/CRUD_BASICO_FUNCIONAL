@@ -50,4 +50,12 @@ public class Emprestimo {
     public void setLivro(Livro livro){
         this.livro = livro;
     }
+    private LocalDate dataDevolucao;
+
+    public LocalDate getDataDevolucao(){
+        return dataDevolucao;
+    }
+    public void setDataDevolucao(LocalDate  dataDevolucao){
+        this.dataDevolucao = dataDevolucao;
+    }
 }

@@ -7,6 +7,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +30,8 @@ public class EmprestimoController {
     @PostMapping 
     public ResponseEntity<Emprestimo> cadastrar(
         @RequestBody EmprestimoRequest dados) {
-            Integer alunoId = dados.getAluno();
-            Integer livroId = dados.getLivro();
+            Integer alunoId = dados.getAlunoId();
+            Integer livroId = dados.getLivroId();
 
             if(alunoId == null || livroId == null){
                 return ResponseEntity.badRequest().build();
@@ -61,4 +62,19 @@ public class EmprestimoController {
 
     return ResponseEntity.notFound().build();    
     } 
+        @PatchMapping ("/{id}/devolucao")
+        public ResponseEntity<Emprestimo> devolver(
+            @PathVariable Integer id){
+            Optional<Emprestimo> emprestimo = emprestimoService.devolver(id);
+
+            if(emprestimo.isPresent()){
+                return ResponseEntity.ok(emprestimo.get());
+            }
+            return ResponseEntity.notFound().build();
+        }
+        @GetMapping ("/ativos")
+        public ResponseEntity<List<Emprestimo>> listarAtivos() {
+            List<Emprestimo> emprestimos = emprestimoService.listarAtivos();
+            return ResponseEntity.ok(emprestimos);
+        }
   }
