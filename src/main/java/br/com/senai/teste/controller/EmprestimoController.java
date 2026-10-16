@@ -71,10 +71,23 @@ public class EmprestimoController {
                 return ResponseEntity.ok(emprestimo.get());
             }
             return ResponseEntity.notFound().build();
-        }
-        @GetMapping ("/ativos")
-        public ResponseEntity<List<Emprestimo>> listarAtivos() {
-            List<Emprestimo> emprestimos = emprestimoService.listarAtivos();
+    }
+    @GetMapping ("/ativos")
+    public ResponseEntity<List<Emprestimo>> listarAtivos() {
+        List<Emprestimo> emprestimos = emprestimoService.listarAtivos();
+    
+          return ResponseEntity.ok(emprestimos);
+     }
+    @GetMapping ("/aluno/{alunoId}")
+    public ResponseEntity<List<Emprestimo>> listarPorAluno(
+        @PathVariable Integer alunoId){
+            List<Emprestimo> emprestimos = emprestimoService.listarPorAluno(alunoId);
             return ResponseEntity.ok(emprestimos);
         }
+       @GetMapping ("/livro/{livroId}")
+    public ResponseEntity<List<Emprestimo>> listarPorLivro(
+    @PathVariable Integer livroId){
+        List<Emprestimo> emprestimos = emprestimoService.listarPorLivro(livroId);
+        return ResponseEntity.ok(emprestimos);
   }
+}
