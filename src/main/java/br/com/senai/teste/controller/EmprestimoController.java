@@ -1,8 +1,11 @@
 package br.com.senai.teste.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
+import jakarta.validation.*;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +32,18 @@ public class EmprestimoController {
     }
     @PostMapping 
     public ResponseEntity<Emprestimo> cadastrar(
+        @Valid  
         @RequestBody EmprestimoRequest dados) {
             Integer alunoId = dados.getAlunoId();
             Integer livroId = dados.getLivroId();
+
+            LocalDate dataPrevistaDevolucao = dados.getDataPrevistaDevolucao();
 
             if(alunoId == null || livroId == null){
                 return ResponseEntity.badRequest().build();
             }
             Optional<Emprestimo> emprestimo = emprestimoService.cadastrar(
-                alunoId, livroId);
+                alunoId, livroId, dataPrevistaDevolucao);
                 
             if(emprestimo.isEmpty()){
                 return ResponseEntity.notFound().build();
@@ -89,5 +95,16 @@ public class EmprestimoController {
     @PathVariable Integer livroId){
         List<Emprestimo> emprestimos = emprestimoService.listarPorLivro(livroId);
         return ResponseEntity.ok(emprestimos);
+  }
+  @GetMapping ("/atrasados")
+  public ResponseEntity<List<Emprestimo>> listarAtrasados(){
+    List<Emprestimo> emprestimos = emprestimoService.listarAtrasados();
+
+    return ResponseEntity.ok(emprestimos);
+  }
+  @GetMapping ("/aluno/{id}/atrasados")
+  public ResponseEntity<List<Emprestimo >> listarEmprestimosAtrasadosDoAluno(@PathVariable Integer id){
+    List<Emprestimo> atrasados = emprestimoService.listarEmprestimosAtrasadosDoAluno(id);
+    return ResponseEntity.ok(atrasados);
   }
 }
